@@ -57,12 +57,14 @@ Lembrando dados importantes.
 Data inicial: 07/11/2023
 Data final: 15/01/2024
 
+### Leitura dos dados
+
 ```{r, lendo-dados}
 df_2023_nov <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1txp3AiJhJRWTxjZikS4RVI191nxOG_BTkoawITC3hrU/edit?pli=1#gid=1352677891", sheet = "2023-Novembro") 
 
 df_2023_dez <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1txp3AiJhJRWTxjZikS4RVI191nxOG_BTkoawITC3hrU/edit?pli=1#gid=1352677891", sheet = "2023-Dezembro")
 
-df_2024_jan <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1txp3AiJhJRWTxjZikS4RVI191nxOG_BTkoawITC3hrU/edit?pli=1#gid=1352677891", sheet = "2023-Dezembro")
+df_2024_jan <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1txp3AiJhJRWTxjZikS4RVI191nxOG_BTkoawITC3hrU/edit?pli=1#gid=1352677891", sheet = "2024-Jan")
 
 df_2023_nov |> 
   dplyr::select(1, 14, 15) |> 
@@ -74,6 +76,8 @@ df_2023_nov |>
 Uma rápida observação dos dados nos mostrou alguns problemas de inconsistências nos dados lidos.
 Inicialmente algumas colunas da tabela de novembro foram lidas com o tipo errado, uma numérica e outra de carácteres foram lidas como listas, pelo formato da tabela também precisei remover uma linha que não estava preenchida, esses problemas foram corirgidos. Além disso padronizei os nomes das colunas e selecionei apenas as colunas que seriam utilizadas.
 Para exemplificar mostrarei uma parte da tabela de novembro ao ler os dados do google drive, e em seguida como ficou a tabela após padronizar e tratar o nome das colunas e seus tipos.
+
+### Tratamento dos dados
 
 ```{r, tratamento-de-dados-1}
 df_2023_nov <- df_2023_nov |>
@@ -93,7 +97,7 @@ df_2023_dez <- df_2023_dez |>
   dplyr::select(dia, peso, kcal, obs, mes_ano)
 
 df_2024_jan <- df_2024_jan |> 
-  dplyr::rename(dia = 1, kcal = `Kcal consumidas`, obs = 16,
+  dplyr::rename(dia = 1, kcal = `Kcal consumidas`, obs = Obs,
                 peso = Peso) |>
   dplyr::mutate(dia = dia+61) |> 
   dplyr::mutate(mes_ano = "jan-2024") |> 
@@ -113,7 +117,7 @@ df_dieta <- bind_rows(df_2023_nov, df_2023_dez, df_2024_jan) |>
   tidyr::as_tibble()
 ```
 
-### Primeiras observações
+#### Verificando tipos de variáveis
 
 ```{r, primeiras-obs}
 col_classes <- sapply(df_dieta, class)
@@ -127,10 +131,53 @@ df_cols |>
 
 ```
 
-Podemos ver o tipo de cada coluna, as colunas **dia**, **peso**, **obs** e **mes_ano** foram lidas corretamente, porém a coluna **kcal** deveria ter sido lida como um valor.
+Podemos ver o tipo de cada coluna, as colunas **dia**, **peso**, **obs** e **mes_ano** foram lidas corretamente, porém a coluna **kcal** deveria ter sido lida como um valor. Vamos investigar o problema desta coluna.
 
-
-```{r, tratamento-de-dados-2}
-df_dieta <- bind_rows(df_2023_nov, df_2023_dez, df_2024_jan)
+```{r, kcal-sample}
+df_dieta |>
+  dplyr::select(kcal) |> 
+  slice_sample(n = 20) |> 
+  gt::gt()
 ```
 
+#### Tratando variável calorias consumidas
+
+Existe um problema de preenchimento desta coluna, existem valores que são apenas numéricos, valores do tipo *character*, valores nulos e NA. Portanto, irei trabalhar primeiro limpar os valores desta coluna, mantendo apenas os valores numéricos e criarei uma nova coluna que funcionará como legenda para casos de:
+
+- 0: Calorias consumidas anotadas corretamente.
+- 1: Dias com refeições livres, onde, ainda que tenha mantido um certo controle, por ter uma refeição que não foi calculada, preferi não contar calorias.
+- 2: Dias onde por algum outro motivo não contei as calorias, seja por viagem, ou por algum outro motivo não indicado.
+- 3: Período onde me dei uma "folga", de 24/12 até dia 01/01.
+- 4: Dias que não foram contabilizados porque ainda não aconteceram (mês de janeiro)
+
+```{r, tratamento-de-dados-2}
+# df_dieta_ <- df_dieta
+df_dieta <- df_dieta |> 
+  dplyr::mutate(obs = if_else(is.na(obs), "NA", obs)) |> 
+  dplyr::mutate(kcal_clean = as.numeric(stringr::str_extract(kcal,"[0-9.]+"))) |> 
+  dplyr::mutate(kcal_label = case_when(
+    stringr::str_detect(tolower(obs), "livre") ~ 1,
+    (kcal == "NULL" & obs == "NA") ~ 2,
+    (is.na(peso) & is.na(kcal) & obs == "NA" & (mes_ano == "dez-2023" | dia == 62)) ~ 3,
+    (is.na(peso) & is.na(kcal) & obs == "NA") ~ 4,
+    TRUE ~ 0
+  )) |>  
+  dplyr::select(dia, peso, kcal, kcal_clean, kcal_label, obs, mes_ano)
+```
+
+### Observações iniciais
+
+Agora com dados já tratados podemos começar as análises. Vamos começar pelo mais simples, verificar valores que mais se repetem, valores mais altos e baixos de peso registrados, e para a variável de observação, fazer uma contagem de palavras que mais apareceram nas observações.
+
+```{r, observacoes-iniciais}
+peso_min = min(df_dieta$peso, na.rm = T)
+peso_max = max(df_dieta$peso, na.rm = T)
+kcal_min = min(df_dieta$kcal_clean, na.rm = T)
+kcal_max = max(df_dieta$kcal_clean, na.rm = T)
+kcal_count_correct = sum(df_dieta$kcal_label == 0)
+kcal_count_incorrect = sum(df_dieta$kcal_label %in% c(1, 2, 3))
+kcal_count_incorrect_vac = sum(df_dieta$kcal_label == 3)
+
+obs_table <- func_count_words(df_dieta$obs) 
+
+```
