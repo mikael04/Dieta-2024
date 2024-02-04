@@ -1,4 +1,6 @@
 ---
+params:
+  teste_interno: "T"
 ---
 
 ## Análise exploratória
@@ -10,6 +12,15 @@ Data inicial: 07/11/2023 Data final: 15/01/2024
 ### Leitura dos dados
 
 ```{r, lendo-dados}
+if(params$teste_interno == "T"){
+  library(dplyr)
+  library(googlesheets4)
+  library(ggplot2)
+  library(tm)
+  source(here::here("R/fct_count_words.R"))
+  source(here::here("R/fct_df_strings_count.R"))
+  source(here::here("R/fct_sep_strings.R"))
+}
 df_2023_nov <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1txp3AiJhJRWTxjZikS4RVI191nxOG_BTkoawITC3hrU/edit?pli=1#gid=1352677891", sheet = "2023-Novembro") 
 
 df_2023_dez <- googlesheets4::read_sheet("https://docs.google.com/spreadsheets/d/1txp3AiJhJRWTxjZikS4RVI191nxOG_BTkoawITC3hrU/edit?pli=1#gid=1352677891", sheet = "2023-Dezembro")
@@ -63,6 +74,8 @@ E por fim farei a união em um único banco de dados, porque muitos dos tratamen
 ```{r, juntando-bases}
 df_dieta <- dplyr::bind_rows(df_2023_nov, df_2023_dez, df_2024_jan) |> 
   tidyr::as_tibble()
+
+rm(df_2024_jan, df_2023_dez, df_2023_nov)
 ```
 
 #### Verificando tipos de variáveis
@@ -71,7 +84,7 @@ df_dieta <- dplyr::bind_rows(df_2023_nov, df_2023_dez, df_2024_jan) |>
 col_classes <- sapply(df_dieta, class)
 col_names <- colnames(df_dieta)
 
-df_cols <- tibble(col_names, col_classes)
+df_cols <- tibble::tibble(col_names, col_classes)
 df_cols |> 
   gt::gt() |> 
   gt::cols_label(col_names = gt::md("**Coluna**"),
@@ -155,4 +168,14 @@ obs_table |>
 
 Uma analise das observações não traz muitas conclusões interessantes, a única palavra que pode representar um pouco os dias  fora de dieta são as palavras "livre", palavra que costumo usar para simbolizar dias que não contei calorias e normalmente fiz uma refeição fora da dieta. As palavras "pouco" e "menos" também indicam alguns dias que eu acabei comendo abaixo do valor estipulado.
 
+### Avaliando a evolução do peso
+
+Para melhor ilustrar algumas variáveis, utilizaremos gráficos a seguir.
+
+```{r, peso}
+rm(list = setdiff(ls(), c("params", "df_dieta")))
+ggplot(df_dieta, aes(x = dia, y = peso)) +
+  geom_line() +
+  theme_classic()
+```
 

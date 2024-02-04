@@ -8,9 +8,6 @@
 #'
 #' @date 16/01/2024
 
-source("R/fct_sep_strings.R")
-source("R/fct_df_strings_count.R")
-
 func_count_words <- function(string_vector){
   teste_interno <- F
   if(teste_interno){

@@ -5,7 +5,7 @@ sidebar: false
 toc: true
 execute:
   warning: false
-cache: TRUE
+cache: FALSE
 lang: pt
 theme: cerulean
 reference-location: margin
@@ -38,6 +38,8 @@ library(tm)
 
 ## Outros scripts usadas
 source("R/fct_count_words.R")
+source("R/fct_df_strings_count.R")
+source("R/fct_sep_strings.R")
 
 set.seed(42)
 ```
