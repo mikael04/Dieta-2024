@@ -1,0 +1,21 @@
+---
+params:
+---
+
+## Apresentação
+
+Bom, inicialmente queria dizer que essa ideia surgiu da minha vontade de criar mais projetos para o meu portfólio e juntei com um assunto fora da nossa bolha comum de dados, mas algo que está no dia à dia de muitas pessoas além de ser um assunto que eu curto bastante acompanhar.
+
+Esse é um projeto com dados pessoais, que tentarei levar de forma mais descontraída para apresentar a minha evolução pessoal na dieta (que eu mesmo com meus conhecimentos de youtube montei).
+
+Quero fazer um disclaimer inicial dizendo que não tenho nenhuma intenção de ensinar ou de tornar um exemplo para outras pessoas seguirem, caso queira fazer algum tipo de plano alimentar sugiro que procure um nutricionista, ou senão estiver mais apertado em dinheiro que busque entender um pouco de nutrição antes de seguir qualquer dieta encontrada na internet, afinal estamos falando da nossa própria saúde.
+
+Feito o disclaimer, quero dizer que me encontrava insatisfeito com o meu corpo, e já sou praticante de academia fazem alguns anos, também já tive muito interesse na área de nutrição e acompanho muitas pessoas ligadas tanto a nutrição esportiva quanto atletas amadores e profissionais. Não é a primeira vez que faço uma dieta para mim e portanto já tinha alguma prática, mas ainda assim surgiram coisas que me fizeram pensar sobre e que poderei aplicar numa futura dieta para perda de peso.
+
+Nesta análise vou me reter apenas à evolução de peso e consumo calórico executados, uso um aplicativo de cálculo de calorias e tenho uma balança de precisão que uso para anotar no aplicativo o meu consumo, portanto os números são sempre estimativas (e por isso normalmente são aproximados).
+
+Além disso, houveram dias onde eu não fiz a minha pesagem, ou por esquecimento, ou por ser período de final de ano onde me dei uma folga de uma semana (do dia 24 até o dia 01), mas não vai prejudicar muito a análise pois como a evolução do peso é, e deve ser, lenta, os dias seguintes servirão.
+
+Já com a contagem de calorias eu fui um pouco mais displicente, seja porque é um pouco mais trabalhoso e ainda não consegui criar esse hábito, seja porque muitas vezes eu repetia refeições, portanto acabava esquecendo de anotar. Nos dias livres eu obviamente não fiz os cálculos, ainda que tenha tentado controlar para não exagerar e nos dias de refeições livres, que pretendo analisar, a anotação ou fica incompleta ou não é feita, o que não quer dizer que comi livremente durante o dia, só que, como uma refeição era livre e não pesada, não vi sentido em anotar todo o dia. Ah, outro detalhe é que o cálculo de calorias é sempre do dia anterior à pesagem, então o resultado do consumo é visto no dia seguinte (obviamente não de forma direta, mas em alguns casos de forma mais acentuada quando havia um consumo muito maior ou muito menor de calorias).
+
+Outro ponto chave que não pretendo adicionar nessa análise mas que acho muito pertinente é a qualidade do sono, eu sou uma pessoa que dorme regularmente e tem a tendência a acordar muito cedo, mesmo nos finais de semana eu não costumo passar das 22h, mas existem casos de eventos que acabo me estendendo e mesmo dormindo tarde eu acordo cedo, entre 5-6h da manhã. Eu considero a qualidade do sono um fator muito importante na perda de peso (e manutenção da massa magra), mas inicialmente não será avaliada.

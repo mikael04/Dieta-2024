@@ -1,38 +1,5 @@
 ---
-title: "Relatório de Dieta"
-author: "Mikael Marin Coletto"
-sidebar: false
-toc: true
-execute:
-  warning: false
-cache: TRUE
-lang: pt
-theme: cerulean
-reference-location: margin
-code-fold: true
-code-summary: "Mostrar o código"
-code-link: true
-format: 
-  html:
-    page-layout: full
-editor: visual
 ---
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
-
-## Bibliotecas usadas
-### Manipulação de dados
-library(dplyr)
-### Gráficos
-library(ggplot2)
-### Manipulação de texto
-library(tm)
-
-## Outros scripts usadas
-source("R/fct_count_words.R")
-```
-
 ## Metodologia
 
 Como comentado, utilizei um aplicativo para a contagem de calorias, o *fatsecret*, que é gratuito e possui boa parte dos alimentos que utilizei, em alguns casos fiz algumas aproximações quando não encontrava exatamente o mesmo alimento ou quando por algum motivo não conseguia fazer a pesagem.

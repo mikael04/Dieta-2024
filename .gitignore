@@ -3,3 +3,6 @@
 .RData
 .Ruserdata
 relatorio_files/*
+relatorio_cache/*
+index_cache/*
+index_files/*

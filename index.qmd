@@ -1,0 +1,60 @@
+---
+title: "Relatório de Dieta"
+author: "Mikael Marin Coletto"
+sidebar: false
+toc: true
+execute:
+  warning: false
+cache: TRUE
+lang: pt
+theme: cerulean
+reference-location: margin
+code-fold: true
+code-summary: "Mostrar o código"
+code-link: true
+format: 
+  html:
+    page-layout: full
+    output-file: index.html
+editor: visual
+params:
+  run_all_code: "T"
+  overwrite_tables: "T"
+  use_db: "T"
+  debug: "F"
+  teste_interno: "F"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE) 
+
+## Bibliotecas usadas
+### Manipulação de dados
+library(dplyr)
+### Gráficos
+library(ggplot2)
+### Manipulação de texto
+library(tm)
+
+## Outros scripts usadas
+source("R/fct_count_words.R")
+
+set.seed(42)
+```
+
+
+```{r}
+#| eval: !expr params$run_all_code=="T"
+#| child: "capitulos/apresentacao.qmd"
+```
+
+
+```{r}
+#| eval: !expr params$run_all_code=="T"
+#| child: "capitulos/metodologia.qmd"
+```
+
+```{r}
+#| eval: !expr params$run_all_code=="T"
+#| child: "capitulos/analise-exploratoria.qmd"
+```
